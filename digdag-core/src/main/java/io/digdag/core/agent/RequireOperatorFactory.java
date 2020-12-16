@@ -106,14 +106,14 @@ public class RequireOperatorFactory
             try {
                 projectIdentifier = Optional.of(makeProjectIdentifier());
 
-                callback.startSession(
+                StoredSessionAttempt attempt = callback.startSession(
                         request.getSiteId(),
                         projectIdentifier.get(),
                         workflowName,
                         instant,
                         retryAttemptName,
                         overrideParams);
-                throw nextPolling(request.getLastStateParams().deepCopy().set("require_kicked", true));
+                throw nextPolling(request.getLastStateParams().deepCopy().set("require_kicked", true).set("target_session_id", attempt.getSessionId()));
             }
             catch (SessionAttemptConflictException ex) {
                 return processAttempt(ex.getConflictedSession(), lastStateParams, rerunOn, ignoreFailure);
