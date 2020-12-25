@@ -1,2 +1,4 @@
 +hello:
-  sh>: touch __FILE__
+  sh>: |
+    sleep 90
+    touch __FILE__

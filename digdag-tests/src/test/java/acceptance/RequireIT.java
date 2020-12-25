@@ -514,12 +514,23 @@ public class RequireIT
             }
             Thread.sleep(1000);
         }
-        assertThat(success, is(true));
 
         CommandStatus attemptTasks = main("tasks",
                 "-c", config.toString(),
                 "-e", server.endpoint(),
                 attemptId.toString());
+        System.out.println(attemptTasks.outUtf8());
+
+        System.out.println("-------------------");
+
+        CommandStatus attemptChildTasks = main("tasks",
+                "-c", config.toString(),
+                "-e", server.endpoint(),
+                targetAttemptId.toString());
+        System.out.println(attemptChildTasks.outUtf8());
+
+        assertThat(success, is(true));
+
 
         List<Config> stateParams = getStateParams(attemptTasks);
 
